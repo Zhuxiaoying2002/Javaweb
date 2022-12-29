@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/common.css">
+
+    <style>
+        .nav-content {
+            margin: 20px auto 10px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 1200px;
+        }
+
+        .img-size {
+            width: 100px;
+            height: 100px;
+        }
+
+        .list {
+            width: 1200px;
+            height: 500px;
+            margin: 0 auto;
+            overflow: scroll;
+        }
+    </style>
+
+</head>
+<body>
+<div class="header-wrapper">
+    <div class="header">
+        <div class="index-left"><a href="/admin.html">简易书城后台管理</a></div>
+        <div class="index-right">
+            <span class="span-item"><a href="/index.html">查看首页</a></span>
+<!--            <span class="span-item"><a href="/register.html">用户管理</a></span>-->
+<!--            <span class="span-item"><a href="/role.html">书籍管理</a></span>-->
+<!--            <span class="span-item"><a href="/role.html">购物车管理</a></span>-->
+                <span class="span-item">在线人数: <span id="counter">1</span> </span>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="admin-content" id="book-manager">
+        <div class="manager-title">
+            <h3 style="text-align: center">书籍管理</h3>
+            <hr>
+        </div>
+
+        <!-- 按钮触发模态框 -->
+        <div style="text-align: center; margin: 20px auto;">
+            <button
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#myModal1"
+            >添加书籍
+            </button>
+            <hr>
+        </div>
+
+        <!-- 模态框 新增模态框 -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">添加书籍</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="book-name">书籍名称：</label>
+                                <input type="text" class="form-control" id="book-name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-author">书籍作者：</label>
+                                <input type="text" class="form-control" id="book-author">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-publisher">书籍出版：</label>
+                                <input type="text" class="form-control" id="book-publisher">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-description">书籍描述：</label>
+                                <input type="text" class="form-control" id="book-description">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-price">书籍价格：</label>
+                                <input type="text" class="form-control" id="book-price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-imgUrl">书籍图片：</label>
+                                <input type="file" class="form-control" id="book-imgUrl">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="submit-btn">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- 模态框 更新模态框 -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel2">更新书籍</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="book-name">书籍名称：</label>
+                                <input type="text" class="form-control" id="book-name2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-author">书籍作者：</label>
+                                <input type="text" class="form-control" id="book-author2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-publisher">书籍出版：</label>
+                                <input type="text" class="form-control" id="book-publisher2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-description">书籍描述：</label>
+                                <input type="text" class="form-control" id="book-description2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book-price">书籍价格：</label>
+                                <input type="text" class="form-control" id="book-price2">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="submit-btn2">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <div class="list">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>书名</th>
+                    <th>作者</th>
+                    <th>出版社</th>
+                    <th>简介</th>
+                    <th>价格</th>
+                    <th>图片</th>
+                    <th>删除</th>
+                    <th>更新</th>
+                </tr>
+                </thead>
+                <tbody id="book-list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer-wrapper">
+    <div class="footer">
+        power by servlet4.x and tomcat 9.x and mysql 8.x
+    </div>
+</div>
+
+<script src="/static/bootstrap-3.4.1-dist/js/jquery.min.js"></script>
+<script src="/static/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script>
+    function bookSave() {
+        let name = $("#book-name").val();
+        let author = $("#book-price").val();
+        let description = $("#book-description").val();
+        let price = $("#book-price").val();
+        let publisher = $("#book-publisher").val();
+
+        if (!name || !author || !description || !price || !publisher) {
+            alert("参数不完整");
+            return;
+        }
+
+        let files = $("#book-imgUrl")[0].files;
+        if (files.length <= 0) {
+            alert("请选择图片以后在保存");
+            return;
+        }
+
+        console.log("上传中");
+        let form = new FormData();
+        form.append("img", files[0]);
+        form.append("name", name);
+        form.append("price", price);
+        form.append("description", description);
+        form.append("author", author);
+        form.append("publisher", publisher);
+
+        $.ajax({
+            url: "/admin/book-save-api?token=1",
+            type: "POST",
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res);
+                alert("书籍添加成功");
+                // 关闭模态框
+                $("#myModal1").modal("hide");
+                // 刷新数据
+                getBookList();
+            },
+            fail: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    function deleteItem(id) {
+        console.log("current id: " + id);
+        $.ajax({
+            url: "/admin/book-delete-api?token=1&id=" + id,
+            method: "get",
+            success: function (res) {
+               if (res.code === 500) {
+                   alert("删除失败");
+               }
+               else if (res.code === 200) {
+                   alert("删除成功");
+                   // 刷新数据
+                   getBookList();
+               }
+            }
+        });
+    }
+
+    function updateItem(id) {
+        console.log("current id: " + id);
+        // 显示模态框
+        $(function() {
+            $("#myModal2").modal("show");
+        });
+
+        // 读取值写入到元素中去
+        $.ajax({
+            url: "/admin/book-item-api?token=1&id=" + id,
+            method: "get",
+            success: function(res) {
+                if (res.code === 200) {
+                    $("#book-name2").val(res.data.name);
+                    $("#book-author2").val(res.data.author);
+                    $("#book-publisher2").val(res.data.publisher);
+                    $("#book-price2").val(res.data.price);
+                    $("#book-description2").val(res.data.description);
+                }
+
+                $("#submit-btn2").click(function() {
+                    // 保存数据
+                    $.ajax({
+                        url: "/admin/book-update-api?token=1",
+                        data: {
+                            id: id,
+                            name: $("#book-name2").val(),
+                            publisher: $("#book-publisher2").val(),
+                            author: $("#book-author2").val(),
+                            price: $("#book-price2").val(),
+                            description: $("#book-description2").val()
+                        },
+                        method: "post",
+                        success: function(res) {
+                            if (res.code === 200) {
+                                // 更新成功
+                                alert("更新成功");
+                                getBookList();
+                            }
+                            else {
+                                alert("更新失败");
+                            }
+                            $("#myModal2").modal("hide");
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    function createTableBodyString(bookList) {
+        // 删除当前节点的所有子节点
+        $("#book-list").children().remove();
+
+        let html = "";
+        for (let index = 0; index < bookList.length; index++) {
+            let imgUrl = "/upload/" + bookList[index].imgUrl;
+            let currentId = bookList[index].id;
+            let temp = "<tr>"
+                + "<td>" + bookList[index].id + "</td>"
+                + "<td>" + bookList[index].name + "</td>"
+                + "<td>" + bookList[index].author + "</td>"
+                + "<td>" + bookList[index].publisher + "</td>"
+                + "<td>" + bookList[index].description + "</td>"
+                + "<td>" + bookList[index].price + "</td>"
+                + "<td><img class='img-size' src='" + imgUrl + "'/>" + "</td>"
+                + "<td>" + "<button class='btn btn-primary' onClick='deleteItem(" + currentId + ")'>删除</button>" + "</td>"
+                + "<td>" + "<button class='btn btn-primary' onClick='updateItem(" + currentId + ")'>更新</button>" + "</td>"
+                +
+                "</tr>";
+            html += temp;
+        }
+
+        // 绑定事件
+        $("#book-list").append(html);
+    }
+
+    function getBookList() {
+        $.ajax({
+            url: "/admin/book-list-api?token=1",
+            method: "get",
+            success: function (res) {
+                console.log(res);
+
+                const bookList = res.data;
+                createTableBodyString(bookList);
+            }
+        });
+    }
+
+    function getUserCount() {
+        $.ajax({
+            url: "/count",
+            method: "get",
+            success: function (data) {
+                console.log("count invoke");
+                console.log(data);
+                data = JSON.parse(data);
+                if (data.code === 200) {
+                    console.log('res: ' + data.data);
+                    $("#counter").html(data.data);
+                }
+                else {
+                    console.log("if not invoke");
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        console.log("jq is ok");
+
+        // btnEventAdd();
+        $("#submit-btn").click(function () {
+            bookSave();
+        });
+
+        // get user count
+        getUserCount();
+
+        // 显示数据
+        getBookList();
+    });
+</script>
+</body>
+</html>

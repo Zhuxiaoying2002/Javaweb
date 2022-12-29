@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/common.css">
+
+    <style>
+        .nav-content {
+            margin: 20px auto 10px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 1200px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="header-wrapper">
+    <div class="header">
+        <div class="index-left"><a href="/admin.html">简易书城后台管理</a></div>
+        <div class="index-right">
+            <span class="span-item"><a href="/index.html">查看首页</a></span>
+            <!--      <span class="span-item"><a href="/register.html">注册</a></span>-->
+            <!--      <span class="span-item"><a href="/role.html">个人中心</a></span>-->
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="nav-content">
+        <button type="button" class="btn btn-success" id="role">用户管理</button>
+        <button type="button" class="btn btn-success" id="book">书籍管理</button>
+        <button type="button" class="btn btn-success" id="cart">购物车管理</button>
+    </div>
+
+    <div class="admin-content" id="role-manager">
+        role
+    </div>
+
+    <div class="admin-content" id="book-manager">
+        book
+    </div>
+
+    <div class="admin-content" id="cart-manager">
+        cart
+    </div>
+
+</div>
+
+<div class="footer-wrapper">
+    <div class="footer">
+        power by servlet4.x and tomcat 9.x and mysql 8.x
+    </div>
+</div>
+
+<script src="/static/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap-3.4.1-dist/js/jquery.min.js"></script>
+<script>
+    function btnEventAdd() {
+        // 绑定点击事件
+        let btnArray = $("button");
+        for (var index = 0; index < btnArray.length; index++) {
+
+        }
+    }
+
+    $(document).ready(function () {
+        console.log("jq is ok");
+
+        btnEventAdd();
+    });
+</script>
+</body>
+</html>

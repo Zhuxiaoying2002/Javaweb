@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/common.css">
+
+    <style>
+        .inner-content {
+            margin-top: 20px;
+            width: 1200px;
+            height: 600px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .book-item {
+            width: 200px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 10px;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        .book-img {
+            width: 200px;
+            height: 180px;
+        }
+    </style>
+</head>
+<body>
+<div class="header-wrapper">
+    <div class="header">
+        <div class="index-left"><a href="/index.html">简易书城</a></div>
+
+        <div class="index-right">
+            <span class="span-item"><a href="/login.html">登录</a></span>
+            <span class="span-item"><a href="/register.html">注册</a></span>
+            <span class="span-item"><a href="/role.html">购物车</a></span>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div id="inner-content" class="inner-content">
+        <h3 style="text-align: center">购物车中心</h3>
+        <hr>
+        <!-- 展示商品数据 -->
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>简介</th>
+                <th>价格</th>
+                <th>用户</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody id="book-list">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="footer-wrapper">
+    <div class="footer">
+        power by servlet4.x and tomcat 9.x and mysql 8.x
+    </div>
+</div>
+
+<script src="/static/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap-3.4.1-dist/js/jquery.min.js"></script>
+<script>
+    function deleteItem(cartId){
+        console.log("cartId: " + cartId);
+        $.ajax({
+           url: "/front/cart-delete-api?cartId=" + cartId,
+            method: "get",
+            success: function(res) {
+               if (res.code === 200) {
+                   alert("删除成功");
+
+                   // 请求数据
+                   $.ajax({
+                       url: "user/cart-list-api?token=0&userId=" + JSON.parse(window.sessionStorage.getItem("user")).id,
+                       method: "get",
+                       success: function(res) {
+                           if (res.code === 200) {
+                               createTableBodyString(res.data);
+                           }
+                       }
+                   });
+               }
+            }
+        });
+    }
+
+    function createTableBodyString(bookList) {
+        // 删除当前节点的所有子节点
+        $("#book-list").children().remove();
+
+        let html = "";
+        for (let index = 0; index < bookList.length; index++) {
+            let currentId = bookList[index].id;
+            let temp = "<tr>"
+                + "<td>" + bookList[index].id + "</td>"
+                + "<td>" + bookList[index].name + "</td>"
+                + "<td>" + bookList[index].author + "</td>"
+                + "<td>" + bookList[index].publisher + "</td>"
+                + "<td>" + bookList[index].description + "</td>"
+                + "<td>" + bookList[index].price + "</td>"
+                + "<td>" + bookList[index].user +"</td>"
+                + "<td>" + "<button class='btn btn-primary' onClick='deleteItem(" + currentId + ")'>删除</button>" + "</td>"
+                + "</tr>";
+            html += temp;
+        }
+
+        // 绑定事件
+        $("#book-list").append(html);
+    }
+
+    $(document).ready(function() {
+        console.log("jq is ok");
+        let user = window.sessionStorage.getItem("user");
+        if (!user) {
+            alert("未登录");
+            window.location.href = "/login.html";
+            return;
+        }
+        console.log("userId: ", JSON.parse(window.sessionStorage.getItem("user")).id);
+        // 请求数据
+        $.ajax({
+            url: "user/cart-list-api?token=0&userId=" + JSON.parse(window.sessionStorage.getItem("user")).id,
+            method: "get",
+            success: function(res) {
+                if (res.code === 200) {
+                    createTableBodyString(res.data);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

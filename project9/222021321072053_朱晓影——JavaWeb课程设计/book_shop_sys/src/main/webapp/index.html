@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1-dist/css/common.css">
+
+    <style>
+        .inner-content {
+            margin: 20px auto;
+            width: 1200px;
+            height: 600px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .book-item {
+            width: 200px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 10px;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        .book-img {
+            width: 200px;
+            height: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-wrapper">
+        <div class="header">
+            <div class="index-left"><a href="/index.html">简易书城</a></div>
+
+            <div class="index-right">
+                <span class="span-item"><a href="/login.html">登录</a></span>
+                <span class="span-item"><a href="/register.html">注册</a></span>
+                <span class="span-item"><a href="/role.html">购物车</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div style="margin:0 auto; display: flex; flex-display:center;">
+            <input id="search" type="text" placeholder="请输入书名搜索">
+            <button id="search-btn" class="btn btn-success">搜索</button>
+        </div>
+
+        <div id="inner-content" class="inner-content">
+
+        </div>
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="footer">
+            power by servlet4.x and tomcat 9.x and mysql 8.x
+        </div>
+    </div>
+
+    <script src="/static/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap-3.4.1-dist/js/jquery.min.js"></script>
+    <script>
+        function search() {
+            let keyword = $("#search").val();
+            $.ajax({
+                url: "/search?keyword=" + keyword,
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert("搜索成功");
+                        createTableBodyString(res.data);
+                    }
+                }
+            });
+        }
+
+        function createTableBodyString(data) {
+            const bookArray = data;
+            let html = "";
+
+            for (let index = 0; index < bookArray.length; index++) {
+                let url = "/upload/" + bookArray[index].imgUrl;
+                let htmlItem = "<div class='book-item'>"
+                    + "<div class='inner'>"
+                    + "<img class=\"book-img\" src=\"" + url + "\" alt=\"\">"
+                    + "<span>书名:" + bookArray[index].name + "</span><hr>"
+                    + "<span>价格:" + bookArray[index].price + "</span><hr>"
+                    + "<span>出版:" + bookArray[index].publisher + "</span><hr>"
+                    + "<span>作者:" + bookArray[index].author + "</span><hr>"
+                    + "<button type='button' onClick='addToCart(" + bookArray[index].id +")' class='btn btn-success'>添加到购物车</button>"
+                    + "</div>"
+                    +"</div>";
+
+                html += htmlItem;
+            }
+            $("#inner-content").children().remove();
+            $("#inner-content").append(html);
+        }
+
+        function addToCart(id) {
+            console.log("id: " + id);
+            console.log(window.sessionStorage.getItem("user"));
+
+            let user = window.sessionStorage.getItem("user");
+            if (!user) {
+                alert("未登录");
+                window.location.href = "/login.html";
+                return;
+            }
+            console.log("userId: ", JSON.parse(window.sessionStorage.getItem("user")).id);
+
+            // 添加数据到购物车 bookId, userId;
+            $.ajax({
+                url: "/user/cart-insert-api?token=0",
+                data: {
+                    userId: JSON.parse(window.sessionStorage.getItem("user")).id,
+                    bookId: id,
+                },
+                method: "post",
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert("添加成功");
+                    }
+                    else {
+                        alert("添加失败");
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            console.log("jq is ok");
+
+            $("#search-btn").click(function() {
+                search();
+            });
+
+
+            $.ajax({
+                url: "/front/book-list-api",
+                success: function(res) {
+                    if (res.code === 200) {
+                        const bookArray = res.data;
+                        let html = "";
+
+                        for (let index = 0; index < bookArray.length; index++) {
+                            let url = "/upload/" + bookArray[index].imgUrl;
+                            let htmlItem = "<div class='book-item'>"
+                                + "<div class='inner'>"
+                                + "<img class=\"book-img\" src=\"" + url + "\" alt=\"\">"
+                                + "<span>书名:" + bookArray[index].name + "</span><hr>"
+                                + "<span>价格:" + bookArray[index].price + "</span><hr>"
+                                + "<span>出版:" + bookArray[index].publisher + "</span><hr>"
+                                + "<span>作者:" + bookArray[index].author + "</span><hr>"
+                                + "<button type='button' onClick='addToCart(" + bookArray[index].id +")' class='btn btn-success'>添加到购物车</button>"
+                                + "</div>"
+                                +"</div>";
+
+                            html += htmlItem;
+                        }
+
+                        $("#inner-content").append(html);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
